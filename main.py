@@ -1,4 +1,4 @@
-from app import demo
+from app import iface
 
-if __name__ == "__main__":
-    demo.launch()
+# Launch the interface
+iface.launch()

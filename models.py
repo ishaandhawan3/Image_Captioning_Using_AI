@@ -1,17 +1,16 @@
-from transformers import AutoFeatureExtractor, AutoModelForImageCaptioning
+import os
+from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
-import torch
 
-class ImageCaptioningModel:
-    def __init__(self, model_name):
-        self.model = AutoModelForImageCaptioning.from_pretrained(model_name)
-        self.feature_extractor = AutoFeatureExtractor.from_pretrained(model_name)
+# Set Hugging Face token
+os.environ["HUGGING_FACE_HUB_TOKEN"] = "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"
 
-    def generate_caption(self, image):
-        inputs = self.feature_extractor(images=image, return_tensors="pt")
-        output = self.model.generate(**inputs)
-        caption = self.model.config.id2label[output[0].item()]
-        return caption
+# Load BLIP model and processor
+processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
 
-# Initialize the model
-model = ImageCaptioningModel("nlpconnect/vit-gpt2-image-captioning")
+def generate_caption(image):
+    inputs = processor(images=image, return_tensors="pt")
+    outputs = model.generate(**inputs)
+    caption = processor.decode(outputs[0], skip_special_tokens=True)
+    return caption
