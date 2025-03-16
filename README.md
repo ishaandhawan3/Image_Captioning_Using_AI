@@ -1,4 +1,4 @@
-#Image Captioning using AI
+Image Captioning using AI
 ==========================
 
 This project uses Hugging Face's BLIP model to generate accurate captions for images. It provides a user-friendly interface built with Gradio, making it accessible to both developers and non-technical users.
